@@ -1,0 +1,32 @@
+{
+  "name": "create-glanceway-source",
+  "version": "1.2.0",
+  "description": "Scaffold a standalone Glanceway source project",
+  "type": "module",
+  "bin": {
+    "create-glanceway-source": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "dependencies": {
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/archiver": "^7.0.0",
+    "@types/node": "^22.0.0",
+    "@types/prompts": "^2.4.9",
+    "archiver": "^7.0.1",
+    "esbuild": "^0.27.3",
+    "typescript": "^5.3.3",
+    "yaml": "^2.8.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
