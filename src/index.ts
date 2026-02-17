@@ -129,7 +129,7 @@ tags: []
 # config:
 #   - key: API_TOKEN
 #     name: API Token
-#     type: secret           # string, number, boolean, secret, select, or list
+#     type: secret           # string, number, boolean, secret, select, list, or multiselect
 #     required: true
 #     description: Your API token
 #   - key: SORT
@@ -140,7 +140,17 @@ tags: []
 #     options:
 #       - hot
 #       - new
-#       - top
+#       - label: Top (All Time)  # options support label/value format
+#         value: top
+#   - key: CATEGORIES
+#     name: Categories
+#     type: multiselect      # like select but allows multiple choices
+#     options:
+#       - label: Technology
+#         value: tech
+#       - label: Science
+#         value: science
+#       - sports
 `;
 
   return manifest;
@@ -318,7 +328,7 @@ if (response.ok && response.json) {
 
 ### api.config.get(key: string): unknown
 
-Get a user-configured value by key (defined in \`manifest.yaml\` config section). Returns \`string\` for most types, \`string[]\` for \`list\` type.
+Get a user-configured value by key (defined in \`manifest.yaml\` config section). Returns \`string\` for most types, \`string[]\` for \`list\` and \`multiselect\` types.
 
 ### api.config.getAll(): Record<string, unknown>
 
@@ -373,7 +383,7 @@ min_app_version: 1.2.0     # Optional: minimum Glanceway app version required
 config:                     # Optional: user-configurable values
   - key: API_TOKEN
     name: API Token
-    type: secret            # string, number, boolean, secret, select, or list
+    type: secret            # string, number, boolean, secret, select, list, or multiselect
     required: true
     description: Description shown to user
   - key: TAGS
@@ -389,8 +399,39 @@ config:                     # Optional: user-configurable values
     options:
       - hot
       - new
-      - top
+      - label: Top (All Time)  # options support label/value format
+        value: top
+  - key: CATEGORIES
+    name: Categories
+    type: multiselect       # like select but allows multiple choices (value type: string[])
+    options:
+      - label: Technology
+        value: tech
+      - label: Science
+        value: science
+      - sports
 \`\`\`
+
+\`select\` and \`multiselect\` options can be plain strings or label/value objects:
+
+\`\`\`yaml
+options:
+  - plain_value            # value = "plain_value", displayed as "plain_value"
+  - label: Display Name    # value = "actual_value", displayed as "Display Name"
+    value: actual_value
+\`\`\`
+
+### Config Field Types
+
+| Type          | Description                                          | Value type  |
+|---------------|------------------------------------------------------|-------------|
+| \`string\`      | Free-form text input                                 | \`string\`    |
+| \`number\`      | Numeric input                                        | \`number\`    |
+| \`boolean\`     | Toggle switch                                        | \`boolean\`   |
+| \`secret\`      | Stored in macOS Keychain                             | \`string\`    |
+| \`select\`      | Dropdown (requires \`options\` list)                   | \`string\`    |
+| \`list\`        | Multiple string values                               | \`string[]\`  |
+| \`multiselect\` | Multiple choice from options (like select but multi) | \`string[]\`  |
 
 ## Source Lifecycle
 
@@ -441,6 +482,8 @@ import type { GlancewayAPI, SourceMethods } from "./types";
 type Config = {
   API_TOKEN: string;
   TAGS: string[];
+  SORT: string;           // select → string
+  CATEGORIES: string[];   // multiselect → string[]
 };
 
 // 3. Helper functions (pure utilities, no api dependency)

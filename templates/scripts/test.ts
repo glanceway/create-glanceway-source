@@ -72,7 +72,7 @@ function resolveConfig(
     const override = overrides[entry.key];
 
     if (override !== undefined) {
-      if (entry.type === "list") {
+      if (entry.type === "list" || entry.type === "multiselect") {
         resolved[entry.key] = override.split(",").map((s) => s.trim());
       } else if (entry.type === "boolean") {
         resolved[entry.key] = override === "true" || override === "1";
