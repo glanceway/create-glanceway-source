@@ -3,6 +3,11 @@
   "version": "1.2.0",
   "description": "Scaffold a standalone Glanceway source project",
   "type": "module",
+  "homepage": "https://github.com/glanceway/create-glanceway-source",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glanceway/create-glanceway-source.git"
+  },
   "bin": {
     "create-glanceway-source": "dist/index.js"
   },
